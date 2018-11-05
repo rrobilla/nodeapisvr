@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  node:
+    container_name: node
+    build: ./node
+    #where to find the dockerfile
+    image: nodeapisvr-v1
+    #what to name the image
+    user: "node"
+    #provides a non root user called node
+    working_dir: /home/node/app
+    #sets node user's home directory
+    environment:
+      - NODE_ENV=development
+      #set this to =production when publishing your app or else performance will be degraded
+      - DEBUG=nodeapisvr, express:*
+      #Enables logging of express and your app
+    ports:
+      - "3000:3000"
+      #Format: HOST PORT:CONTAINER PORT
+    volumes:
+      - ./app:/home/node/app
+    command: "npm start"
