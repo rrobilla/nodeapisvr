@@ -44,7 +44,7 @@ Step 5: Generate boilerplate code for Express
 
 W/o a view engine:    express --no-view --git /usr/src/app 
 
-W/ a view engine ie Pug:    express --view=pug --git /usr/src/app
+W/ a view engine ie. Pug:    express --view=pug --git /usr/src/app
 
 (Now must update package.json and create a Docker compose file)
 type exit in bash
@@ -104,5 +104,40 @@ If errors, do a docker-compose logs to find out what is wrong.
 
 Can access your app in your browser @ localhost:3000
 
+localhost:3000/   serves the index.js route, which gets index.html
+
+localhost:3000/users   serves the users.js route, which gets test.html
+
+You are all set! You can continue to build your app from here
+
+
+
+
+
+
 -------------------------------------------------------
-Step 9: Change app folder structure to MVC
+[Onwards is a WIP]
+Step 9: Change app folder structure to MVC  (if using a view template engine)
+
+- In app folder, create app_server folder
+- In app_server folder create views and controllers folders, then move the routes folder into app_server
+- Open app.js and tell express where the view folder is
+- Look for the routes and change them to use app_server folder:
+
+//Routes
+var indexRouter = require('./app_server/routes/index');
+var usersRouter = require('./app_server/routes/users');
+
+- Set the views configuration to point to where the views are (after var app=express();)
+
+//views setup
+app.set('views', path.join(__dirname, 'app_server', 'views'));
+
+- Stop, remove, and re-create the container
+docker stop containerid
+docker-compose up -d
+
+-------------------------------------------------------
+Step 10: Separate app logic from routing logic
+- Copy index.js into controllers folder and rename to main.js
+
